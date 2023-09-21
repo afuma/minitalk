@@ -6,7 +6,7 @@
 /*   By: edesaint <edesaint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:49:38 by blax              #+#    #+#             */
-/*   Updated: 2023/09/20 20:01:11 by edesaint         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:16:08 by edesaint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,14 @@ void	send_total_len_buffer(int len_string, int server_pid)
 	i = 0;
 	char_len_string = ft_itoa(len_string);
 	if (!char_len_string)
-		exit(1);
+		small_error("Memory allocation for a malloc failed !\n");
 	total_len_buffer = ft_strlen(char_len_string);
 	while (i < total_len_buffer)
 	{
 		if (!send_char(char_len_string[i], server_pid))
 		{
 			free(char_len_string);
-			write(1, "Error: client can't send char to server !\n", 43);
-			exit(1);
+			small_error("Client can't send char to server !\n");
 		}
 		i++;
 	}
@@ -86,10 +85,10 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 		return (0);
-	i = 0;
+	i = -1;
 	server_pid = ft_atoi_pid(argv[1]);
 	if (server_pid == -1)
-		exit_client();
+		small_error("Wrong PID, try again !\n");
 	string = argv[2];
 	len_string = ft_strlen(string);
 	sigemptyset(&sa.sa_mask);
@@ -97,10 +96,10 @@ int	main(int argc, char **argv)
 	sa.sa_sigaction = &handle_sig;
 	sigaction(SIGUSR1, &sa, NULL);
 	send_total_len_buffer(len_string, server_pid);
-	while (i < len_string)
+	while (++i < len_string)
 	{
-		send_char(string[i], server_pid);
-		i++;
+		if (!send_char(string[i], server_pid))
+			small_error("Client can't send char to server !\n");
 	}
 	send_char('\0', server_pid);
 }

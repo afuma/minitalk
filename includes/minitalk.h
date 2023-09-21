@@ -6,7 +6,7 @@
 /*   By: edesaint <edesaint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 09:12:18 by blax              #+#    #+#             */
-/*   Updated: 2023/09/20 19:14:24 by edesaint         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:34:05 by edesaint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <stdbool.h>
 
 size_t	ft_strlen(const char *s);
-void	exit_client(void);
+void	small_error(char *msg);
 void	ft_exit(char **buffer);
 char	*ft_itoa(int n);
 int		ft_isdigit(int c);

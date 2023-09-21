@@ -6,7 +6,7 @@
 /*   By: edesaint <edesaint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 19:38:09 by blax              #+#    #+#             */
-/*   Updated: 2023/09/20 17:33:58 by edesaint         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:15:32 by edesaint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void	exit_client(void)
+void	small_error(char *msg)
 {
-	write(1, "Wrong PID, try again !\n", 24);
-	exit(1);
+	write(2, "Error: ", 7);
+	write(2, msg, ft_strlen(msg));
+	exit(EXIT_FAILURE);
 }
 
 void	ft_exit(char **buffer)

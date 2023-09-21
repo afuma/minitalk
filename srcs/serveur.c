@@ -6,7 +6,7 @@
 /*   By: edesaint <edesaint@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 14:49:38 by blax              #+#    #+#             */
-/*   Updated: 2023/09/20 19:50:54 by edesaint         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:15:30 by edesaint         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	stock_in_buffer(char **buffer, char char_buffer, \
 		len_buffer = ft_atoi(*buffer);
 		free(*buffer);
 		*buffer = NULL;
+		if (len_buffer < 0 || len_buffer > 1000000000)
+			small_error("Size of the client string is invalid !\n");
 		*buffer = malloc(sizeof(char) * (len_buffer + 1));
 		if (!*buffer)
 			return ;
@@ -101,10 +103,7 @@ int	main(void)
 	my_pid = getpid();
 	string_pid = ft_itoa(my_pid);
 	if (string_pid == NULL)
-	{
-		write(1, "Error: memory for pid of malloc failed !\n", 42);
-		exit(1);
-	}
+		small_error("Memory for pid of malloc failed !\n");
 	write(1, "PID du serveur : ", 18);
 	write(1, string_pid, ft_strlen(string_pid));
 	write(1, "\n", 1);
